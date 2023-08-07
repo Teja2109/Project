@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/books.css}">
+	<link rel="icon" type="image/x-icon" href="/images/profile.png">
+	<title>Profile</title>
+	<script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="mybookbody">
+
+	<nav class="navbar">
+		<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
+		<ul>
+			<li><a href="profile">My Profile</a></li>
+			<li><a href="availablebooks">Available books</a></li>
+			<li><a href="mybooks">My Books</a></li>
+
+		</ul>
+	</nav>
+	<h1 class="container text-center text-white">My Profile</h1>
+	<div class="container my-5 col-md-6" style="margin-left: 525px;">
+		<table class="text-center">
+			<tbody style="color: white;" th:each="b: ${customer_details}">
+				<tr>
+					<th>NAME</th>
+				</tr>
+				<tr>
+					<td th:text="${b.fullname}"></td>
+				</tr>
+				<tr height=30px></tr>
+				<tr>
+					<th>EMAIL ID</th>
+				</tr>
+				<tr>
+					<td th:text="${b.email}"></td>
+				</tr>
+				<tr height=30px></tr>
+				<tr>
+					<th>GENDER</th>
+				</tr>
+				<tr>
+					<td th:text="${b.gender}"></td>
+				</tr>
+				<tr height=30px></tr>
+				<tr>
+					<th>MOBILE NUMBER</th>
+				</tr>
+				<tr>
+					<td th:text="${b.phoneno}"></td>
+				</tr>
+				<tr height=30px></tr>
+				<tr>
+					<th>ADDRESS</th>
+				</tr>
+				<tr>
+					<td th:text="${b.address}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="prof">
+		<button type="button" class="btn btn-info">Update Your Profile</button>
+	</div>
+	
+	<div class="prof">
+		<button type="button" class="btn btn-info">My Orders</button>
+	</div>
+	
+	<div class="prof">
+		<button type="button" class="btn btn-danger">Logout</button>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+		integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+		integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+		crossorigin="anonymous"></script>
+
+</body>
+
+</html>

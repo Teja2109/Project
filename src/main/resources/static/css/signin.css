@@ -1,0 +1,61 @@
+.homebody {
+	background-image: linear-gradient(rgba(27, 27, 27, 0.75), rgba(27, 27, 27, 0.75)), url(/images/bgimage5.jpg);
+}
+
+.navbar{
+	width: 100%;
+	margin:auto;
+	display: flex;
+	align-items:center;
+	justify-content: space-between;
+	background-color:none;
+	padding-left:50px;
+	padding-right:50px;
+}
+
+.navbar ul li{
+	list-style:none;
+	display: inline-block;
+	margin:0 20px;
+	position: relative;
+}
+.navbar ul li a {
+	text-decoration: none;
+	color:white;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: medium;
+}
+.navbar ul li::after{
+	content: '';
+	height: 3px;
+	width: 0%;
+	background: white;
+	position: absolute;
+	left: 0;
+	bottom: -10px;
+	transition: 0.5s;
+	
+}
+
+.im{
+	width: 20px;
+	height: 20px;
+	margin-left: 20px;
+	filter: invert(100%);
+	
+}
+.image{
+	width: 70px;
+	cursor: pointer;
+	float:center;
+}
+.navbar ul li:hover::after{
+	
+	width: 100%;
+	
+}
+.info{
+	color:white;
+	font-size: medium;
+}
