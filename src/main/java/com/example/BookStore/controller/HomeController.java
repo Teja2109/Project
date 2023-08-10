@@ -1,8 +1,10 @@
 package com.example.BookStore.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,7 @@ public class HomeController {
 	private CustomerService customerService;
 	
 	@Autowired
-	private CustomerRepository customerRepo;
+	private CustomerRepository userRepo;
 	
 	@Autowired
 	private BCryptPasswordEncoder pswEncoder;
@@ -42,7 +44,11 @@ public class HomeController {
 	}
 	
 	@PostMapping("/createuser")
-	public String createuser(@ModelAttribute Customer_details details,HttpSession session) {
+	public String createuser(@ModelAttribute Customer_details details,HttpSession session, HttpServletRequest request) {
+		String url = request.getRequestURI().toString();
+		url = url.replace(request.getServletPath(), "");
+		
+		
 		boolean f = customerService.checkEmail(details.getEmail());
 		
 		if (f) {
@@ -50,10 +56,11 @@ public class HomeController {
 			return "redirect:/register";
 		}
 		else {
-		Customer_details cs=customerService.createuser(details);
+		Customer_details cs=customerService.createuser(details,url);
 		if(cs!=null) {
 			System.out.println("Success");
 			session.setAttribute("msg1","Successfully Registered!!");
+			session.setAttribute("msg1", "Verify Your email by clicking on link sent to the registered mail");
 //			return "redirect:/customer_sign";
 		}
 		}
@@ -74,7 +81,7 @@ public class HomeController {
 	
 	@PostMapping("/forgotPsw")
 	public String forgotPassword(@RequestParam String email, @RequestParam String phoneno, HttpSession session) {
-		Customer_details user = customerRepo.findByEmailAndPhoneno(email, phoneno);
+		Customer_details user = userRepo.findByEmailAndPhoneno(email, phoneno);
 		if(user!=null) {
 			return "redirect:/resetPassword/" + user.getId();
 		}
@@ -85,12 +92,24 @@ public class HomeController {
 				
 	}
 	
+	@GetMapping("/verify")
+	public String verifyAccount(@Param("code") String code) {
+		
+		if(customerService.verifyAccount(code)) {
+			return "verifySuccess";
+		}
+		else {
+			return "failed";
+		}
+		
+	}
+	
 	@PostMapping("/changePassword")
 	public String resetPassword(@RequestParam String psw, @RequestParam Integer id, HttpSession session ) {
-		Customer_details user = customerRepo.findById(id).get();
+		Customer_details user = userRepo.findById(id).get();
 		String epsw = pswEncoder.encode(psw);
 		user.setPassword(epsw);
-		Customer_details updatedUser = customerRepo.save(user);
+		Customer_details updatedUser = userRepo.save(user);
 		if(updatedUser!=null) {
 			session.setAttribute("msg1", "Password changed successfully");
 		}

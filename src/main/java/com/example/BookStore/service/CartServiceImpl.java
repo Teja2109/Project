@@ -34,9 +34,32 @@ public class CartServiceImpl implements CartService {
 	public void save(Cart book) {
 		cartRepo.save(book);
 	}
-	
+
 	@Override
-    public void deleteById(int Id) {
-        cartRepo.deleteById(Id);
-    }
+	public void deleteById(int Id) {
+		cartRepo.deleteById(Id);
+	}
+
+	@Override
+	public boolean isCartEmpty(int userId) {
+		if (cartRepo.countByUserId(userId) > 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public Cart incrementQuantity(Cart cartItem) {
+		cartItem.setQuantity(cartItem.getQuantity() + 1);
+		return cartRepo.save(cartItem);
+	}
+
+	@Override
+	public Cart decrementQuantity(Cart cartItem) {
+		if (cartItem.getQuantity() > 1) {
+			cartItem.setQuantity(cartItem.getQuantity() - 1);
+		}
+		return cartRepo.save(cartItem);
+	}
 }

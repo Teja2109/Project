@@ -1,35 +1,32 @@
 .homebody {
 	background-image: linear-gradient(rgba(27, 27, 27, 0.75), rgba(27, 27, 27, 0.75)), url(/images/bgimage4.jpg);
-
-	background-size: cover
+	background-size: cover;
 }
 
-.navbar {
+.navbar{
 	width: 100%;
-	margin: auto;
+	margin:auto;
 	display: flex;
-	align-items: center;
+	align-items:center;
 	justify-content: space-between;
-	background-color: none;
-	padding-left: 50px;
-	padding-right: 50px;
+	background-color:none;
+	padding-left:50px;
+	padding-right:50px;
 }
 
-.navbar ul li {
-	list-style: none;
+.navbar ul li{
+	list-style:none;
 	display: inline-block;
-	margin: 0 20px;
+	margin:0 20px;
 	position: relative;
 }
-
 .navbar ul li a {
 	text-decoration: none;
-	color: white;
+	color:white;
 	text-transform: uppercase;
 	font-weight: bold;
 }
-
-.navbar ul li::after {
+.navbar ul li::after{
 	content: '';
 	height: 3px;
 	width: 0%;
@@ -38,41 +35,36 @@
 	left: 0;
 	bottom: -10px;
 	transition: 0.5s;
-
+	
 }
-
 .logo {
 	width: 90px;
-
+	
 }
 
-.im {
+.im{
 	width: 20px;
 	height: 20px;
 	margin-left: 20px;
 	filter: invert(100%);
-
+	
 }
-
-.image {
+.image{
 	width: 70px;
 	cursor: pointer;
 	float:center;
 }
-
-.navbar ul li:hover::after {
-
+.navbar ul li:hover::after{
+	
 	width: 100%;
-
+	
 }
-
-.info {
-	color: white;
+.info{
+	color:white;
 	font-size: medium;
 }
-
 .box {
-	background-color: rgb(255 255, 255);
+	background-color: rgb(255 255,255);
 	border-radius: 28px;
 	-moz-border-radius: 28px;
 	-webkit-border-radius: 28px;
@@ -85,41 +77,111 @@
 	font-size: 20px;
 }
 
-.box:hover {
+.box:hover{
 	color: grey;
 }
 
-.alignment {
-	display: flex;
+.alignment{
+	display:flex;
 }
 
-#welc {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#welc{
 	padding-top: 70px;
 	font-size: 60px;
 	color: white;
 }
 
-#quote {
-	padding-top: 50px;
+#quote{
+	padding-top: 50px ;
 	font-family: "Fantasy";
 	color: white;
 }
-
-.blist {
+.blist{
 	background-image: linear-gradient(rgba(27, 27, 27, 0.75), rgba(27, 27, 27, 0.75)), url(/images/booklist.jpg);
 }
 
-.mybooks {
+.mybooks{
 	background-image: linear-gradient(rgba(27, 27, 27, 0.75), rgba(27, 27, 27, 0.75)), url(/images/booklist.jpg);
 }
 
-.registerbody {
-	background-image: linear-gradient(rgba(37, 37, 37, 0.75), rgba(37, 37, 37, 0.75)), url(/images/register.jpg);
+.registerbody{
+	background-image: linear-gradient(rgba(37, 37, 37, 0.75), rgba(37, 37, 37, 0.75)),url(/images/register.jpg);
 	background-size: cover;
-
+	
 }
 
-.editbody {
-	background-image: linear-gradient(rgba(37, 37, 37, 0.75), rgba(37, 37, 37, 0.75)), url(/images/edit.jpg);
+.editbody{
+	background-image: linear-gradient(rgba(37, 37, 37, 0.75), rgba(37, 37, 37, 0.75)),url(/images/edit.jpg);
 	background-size: 100vw 100vh;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	.counter {
+    width: 150px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.counter input {
+    width: 50px;
+    border: 0;
+    line-height: 30px;
+    text-align: center;
+    background: white;
+    color: black;
+    appearance: none;
+    outline: 0;
+}
+.counter span {
+    display: block;
+    font-size: 25px;
+    padding: 0 10px;
+    cursor: pointer;
+    color:white;
+    user-select: none;
 }

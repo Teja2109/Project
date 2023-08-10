@@ -14,9 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.BookStore.entity.AllBook;
 import com.example.BookStore.entity.Cart;
 import com.example.BookStore.entity.Customer_details;
+import com.example.BookStore.repository.CartRepository;
 import com.example.BookStore.service.CartService;
 import com.example.BookStore.service.CustomerService;
 import com.example.BookStore.service.FictionBookService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -30,6 +33,9 @@ public class FictionBookController {
 	@Autowired
 	private CartService cartService;
 	
+	@Autowired
+	private CartRepository cartRepo;
+	
 	@GetMapping("/fictionbooks")
 	public ModelAndView humourbooks() {
 		List<AllBook> list = fictionBookService.getAllBooks();
@@ -39,14 +45,19 @@ public class FictionBookController {
 		return m;
 	}
 	@RequestMapping("/myfictionList/{id}")
-	public String getMyList(@PathVariable("id") int Id) {
+	public String getMyList(@PathVariable("id") int Id,HttpSession session) {
 		System.out.println(Id);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUsername = authentication.getName();
         Customer_details loggedInUser = customerService.getUserByUsername(loggedInUsername);
 		AllBook book = fictionBookService.getAllBookById(Id);
-		Cart myBook = new Cart(book,loggedInUser,book.getName(),book.getAuthor(),book.getPrice());
-		cartService.save(myBook);
+		if(!(cartRepo.existsByUserIdAndAllBookId(loggedInUser.getId(),Id))){
+			Cart myBook = new Cart(book,loggedInUser);
+			cartService.save(myBook);
+			}
+			else {
+				session.setAttribute("msg","Book Already added!");
+			}
 		return "redirect:/user/fictionbooks";
 	}
 }

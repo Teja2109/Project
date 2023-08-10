@@ -1,8 +1,6 @@
 package com.example.BookStore.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "cart")
@@ -19,32 +17,37 @@ public class Cart{
     @JoinColumn(name = "user_id")
     private Customer_details user;
 
-    private String name;
-	private String author;
-	private String price;
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
+//    private String name;
+//	private String author;
+//	private String price;
+//	@Lob
+//	@Column(columnDefinition = "MEDIUMBLOB")
+//	private String image;
+	
+	private int quantity=1;
+//	public String getName() {
+//		return name;
+//	}
+//
+//	public void setName(String name) {
+//		this.name = name;
+//	}
+//
+//	public String getAuthor() {
+//		return author;
+//	}
+//
+//	public void setAuthor(String author) {
+//		this.author = author;
+//	}
+//
+//	public String getPrice() {
+//		return price;
+//	}
+//
+//	public void setPrice(String price) {
+//		this.price = price;
+//	}
 
 	public int getId() {
 		return id;
@@ -70,20 +73,39 @@ public class Cart{
 		this.user = user;
 	}
 
-
-	public Cart( AllBook allBook, Customer_details user, String name, String author, String price) {
+//	public String getImage() {
+//		return image;
+//	}
+//
+//	public void setImage(String image) {
+//		this.image = image;
+//	}
+	public Cart( AllBook allBook, Customer_details user) {
 		super();
 		this.allBook = allBook;
 		this.user = user;
-		this.name = name;
-		this.author = author;
-		this.price = price;
+//		this.name = name;
+//		this.author = author;
+//		this.price = price;
+//		this.image = image;
 	}
-
+	
 	public Cart() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-    
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public Cart(int quantity) {
+		super();
+		this.quantity = quantity;
+	}
+
 }

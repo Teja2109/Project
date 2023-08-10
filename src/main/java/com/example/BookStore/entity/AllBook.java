@@ -14,15 +14,9 @@ public class AllBook {
 	private String author;
 	private String price;
 	private String type;
-	
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
+	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
+	private String image;
 
 	public int getId() {
 		return id;
@@ -52,22 +46,37 @@ public class AllBook {
 		return price;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public void setPrice(String price) {
 		this.price = price;
 	}
 
-	public AllBook(int id, String name, String author, String price,String type) {
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public AllBook(int id, String name, String author, String price, String type, String image) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.author = author;
 		this.price = price;
-		this.type=type; 
+		this.type = type;
+		this.image = image;
 	}
-
 	public AllBook() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 }

@@ -7,18 +7,19 @@ import org.springframework.stereotype.Service;
 
 import com.example.BookStore.entity.AllBook;
 import com.example.BookStore.repository.AllBookRepository;
+
 @Service
-public class RomanceBookServiceImpl implements RomanceBookService{
-	
-	@Autowired 
+public class RomanceBookServiceImpl implements RomanceBookService {
+
+	@Autowired
 	private AllBookRepository allBookRepository;
 
 	public List<AllBook> getAllBooks() {
-	    return allBookRepository.findByType("romance");
+		return allBookRepository.findByType("romance");
 	}
-	
-@Override
-public AllBook getAllBookById(int Id) {
-	return allBookRepository.findById(Id).get();
-}
+
+	@Override
+	public AllBook getAllBookById(int Id) {
+		return allBookRepository.findById(Id).get();
+	}
 }

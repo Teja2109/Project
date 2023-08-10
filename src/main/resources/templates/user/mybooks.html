@@ -16,16 +16,16 @@
 <body class="mybookbody">
 
 	<nav class="navbar">
-	<a href="/"><img src="/images/eureka_logo.png" class="image"></a> 
+		<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
 		<ul>
 			<li><a href="profile">My Profile</a></li>
 			<li><a href="availablebooks">Available books</a></li>
 			<li><a href="mybooks">My Books</a></li>
-			
+
 		</ul>
 	</nav>
 	<h1 class="container text-center text-white">My Books</h1>
-		<div class="container my-5 col-md-6">
+	<!--		<div class="container my-5 col-md-6">
 		<table class="table table-striped table-hover">
 			<thead style="background-color: white;">
 				<tr>
@@ -47,8 +47,41 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
+	</div>-->
 
+
+	<table style="
+		border-collapse: collapse;
+        table-layout: fixed;
+        margin-left: auto;
+        margin-right: auto;
+        width: 1000px;">
+		<tr style="color: white;border-top: 1pt solid white;border-bottom: 1pt solid white;padding-bottom: 30px;"
+			th:each="product : ${cart}">
+
+			<td style="text-align: center;word-break: break-all;padding-bottom: 10px;padding-top: 10px;"><img alt=""
+					th:src="*{'data:image/jpeg;base64,'+{product.allBook.image}}" style="width: 200px;height: 200px;">
+			</td>
+			<td style="text-align: center;">[[*{product.allBook.name}]] </td>
+			<td style="text-align: center;">
+				<p style="display:inline-block ;">&#8377</p>[[*{product.allBook.price}]]
+			</td>
+			<td style="text-align: center;">
+				<a  style="height: 3px; width: 3px;" th:href ="@{/user/decrementQuantity/{id}(id=${product.id})}" class="btn btn-light d-inline">-</a>
+				<div class="d-inline mx-2">[[${product.quantity}]]</div>
+    		<a th:href="@{/user/incrementQuantity/{id}(id=${product.id})}" class="btn btn-light d-inline">+</a>
+			</td>
+			<td style="text-align: center;"><a th:href="@{/user/deleteBook/{id}(id=${product.id})}"
+					class="btn btn-secondary">Remove</a></td>
+		</tr>
+	</table>
+	<div style="text-align: center;" th:if="${recordsPresent}">
+		<h1 class="text-danger">Sorry!No Books are added to the Cart</h1>
+	</div>
+	<div style="text-align: center;" th:unless="${recordsPresent}">
+		<div style="text-align: center;padding-top: 40px;"><button type="submit"
+				class="btn btn-success col-md-13-f4">Place Order</button></div>
+	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

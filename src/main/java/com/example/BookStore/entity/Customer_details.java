@@ -26,8 +26,12 @@ public class Customer_details {
 	private String pincode;
 
 	private String password;
-	
+
 	private String gender;
+
+	private boolean enabled;
+
+	private String verificationCode;
 
 	public int getId() {
 		return id;
@@ -93,8 +97,24 @@ public class Customer_details {
 		this.gender = gender;
 	}
 
+	public boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+
 	public Customer_details(int id, String fullname, String email, String phoneno, String address, String pincode,
-			String password, String gender) {
+			String password, String gender, boolean enabled, String verificationCode) {
 		super();
 		this.id = id;
 		this.fullname = fullname;
@@ -104,13 +124,13 @@ public class Customer_details {
 		this.pincode = pincode;
 		this.password = password;
 		this.gender = gender;
+		this.setEnabled(enabled);
+		this.verificationCode = verificationCode;
 	}
 
 	public Customer_details() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	
 
 }
