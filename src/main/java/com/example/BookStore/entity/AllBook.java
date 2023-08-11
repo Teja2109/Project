@@ -12,7 +12,7 @@ public class AllBook {
 	private int id;
 	private String name;
 	private String author;
-	private String price;
+	private int price;
 	private String type;
 	@Lob
 	@Column(columnDefinition = "MEDIUMBLOB")
@@ -42,7 +42,7 @@ public class AllBook {
 		this.author = author;
 	}
 
-	public String getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
@@ -54,7 +54,7 @@ public class AllBook {
 		this.type = type;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -66,7 +66,7 @@ public class AllBook {
 		this.image = image;
 	}
 
-	public AllBook(int id, String name, String author, String price, String type, String image) {
+	public AllBook(int id, String name, String author, int price, String type, String image) {
 		super();
 		this.id = id;
 		this.name = name;

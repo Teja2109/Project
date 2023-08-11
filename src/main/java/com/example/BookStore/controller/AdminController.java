@@ -15,6 +15,7 @@ import com.example.BookStore.service.AddNewBook;
 public class AdminController {
 	@Autowired
 	AddNewBook addnewbook;
+	
 	@GetMapping("/addNewBook")
 	public String addNewBook()
 	{
@@ -25,11 +26,11 @@ public class AdminController {
 	    public String add(@RequestParam("image") MultipartFile image,
 	    		@RequestParam("name") String name,
 	    		@RequestParam("author") String author,
-	    		@RequestParam("price") String price,
+	    		@RequestParam("price") int price,
 	    		@RequestParam("type") String type)
 	    {
 	    	addnewbook.saveProductToDB(image, name,author, price,type);
-	    	return "redirect:/admin/addnewbook";
+	    	return "admin/addnewbook";
 	    }
 	
 }

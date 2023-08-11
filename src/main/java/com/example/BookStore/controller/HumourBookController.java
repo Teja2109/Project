@@ -26,16 +26,16 @@ import jakarta.servlet.http.HttpSession;
 public class HumourBookController {
 	@Autowired
 	private HumourBookService humourBookService;
-	
+
 	@Autowired
 	private CustomerService customerService;
-	
+
 	@Autowired
 	private CartService cartService;
-	
+
 	@Autowired
-	private CartRepository  cartRepo;
-	
+	private CartRepository cartRepo;
+
 	@GetMapping("/humourbooks")
 	public ModelAndView humourbooks() {
 		List<AllBook> list = humourBookService.getAllBooks();
@@ -44,20 +44,21 @@ public class HumourBookController {
 		m.addObject("humourbook", list);
 		return m;
 	}
+
 	@RequestMapping("/myhumourList/{id}")
-	public String getMyList(@PathVariable("id") int Id,HttpSession session) {
+	public String getMyList(@PathVariable("id") int Id, HttpSession session) {
 		System.out.println(Id);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loggedInUsername = authentication.getName();
-        Customer_details loggedInUser = customerService.getUserByUsername(loggedInUsername);
+		String loggedInUsername = authentication.getName();
+		Customer_details loggedInUser = customerService.getUserByUsername(loggedInUsername);
 		AllBook book = humourBookService.getAllBookById(Id);
-		if(!(cartRepo.existsByUserIdAndAllBookId(loggedInUser.getId(),Id))){
-			Cart myBook = new Cart(book,loggedInUser);
+		if (!(cartRepo.existsByUserIdAndAllBookId(loggedInUser.getId(), Id))) {
+			Cart myBook = new Cart(book, loggedInUser);
 			cartService.save(myBook);
-			}
-			else {
-				session.setAttribute("msg","Book Already added!");
-			}
+			session.setAttribute("msg", "Book Added to Cart");
+		} else {
+			session.setAttribute("msg", "Book Already added!");
+		}
 		return "redirect:/user/humourbooks";
 	}
 }

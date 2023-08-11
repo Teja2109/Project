@@ -45,7 +45,7 @@ public class HumourBookServiceImpl implements HumourBookService{
 	private AllBookRepository allBookRepository;
 
 	public List<AllBook> getAllBooks() {
-	    return allBookRepository.findByType("homour");
+	    return allBookRepository.findByType("humour");
 	}
 	
 @Override

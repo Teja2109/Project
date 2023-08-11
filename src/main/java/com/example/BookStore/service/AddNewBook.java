@@ -16,7 +16,7 @@ public class AddNewBook {
 	@Autowired
 	private AllBookRepository bookRepo;
 	
-	public void  saveProductToDB(MultipartFile image,String name,String author,String price,String type)
+	public void  saveProductToDB(MultipartFile image,String name,String author,int price,String type)
 	{
 		AllBook p = new AllBook();
 		String fileName = StringUtils.cleanPath(image.getOriginalFilename());
