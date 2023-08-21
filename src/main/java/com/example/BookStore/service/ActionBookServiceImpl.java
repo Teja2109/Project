@@ -21,7 +21,7 @@ public class ActionBookServiceImpl implements ActionBookService {
 	@Override
 	public AllBook getAllBookById(int Id) {
 		// TODO Auto-generated method stub
-		return allBookRepository.findById(Id).get();
+		return allBookRepository.findById(Id);
 	}
 
 }

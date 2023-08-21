@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/books.css}">
+	<link rel="icon" type="image/x-icon" href="/images/h-icon.png">
+	<title>My Orders</title>
+	<script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="actionbody" style="align-items: center;">
+
+	<nav class="navbar">
+		<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
+		<ul>
+			<li><a href="availablebooks">Available books</a></li>
+			<li><a href="mybooks">My Books</a></li>
+			<li><button class="dropbtn">Settings <i class="fa fa-caret-down"></i></button>
+				<div class="dropdown-content">
+					<a href="profile">Profile</a>
+					<a href="myorders">My Orders</a>
+					<a href="/">Sign Out</a>
+				</div>
+			</li>
+		</ul>
+	</nav>
+	<h1 class="container text-center text-white">My Orders</h1>
+
+	<div class="container text-center">
+		<div th:each="order, orderIndex : ${orders}" class="mb-5" style="padding-left:200px ;padding-right:200px ">
+			<div class="d-flex justify-content-start" style="color: white;">
+				<p style="margin: 0;"><b>[[${orderIndex.index+1}]].</b> Order Placed on
+					[[${order.orderDateTime.toLocalDate()}]]</p>
+			</div>
+			<div class="d-flex justify-content-start" style="color: white;">
+				<p style="margin: 0;"><b>Payment Details:</b></p>
+			</div>
+			<div class="d-flex justify-content-start" style="color: white;">
+				<p style="margin: 0;">Total Price: &#8377;[[${order.producttotal}]]</p>
+			</div>
+			<div class="d-flex justify-content-start" style="color: white;">
+				<p style="margin: 0;">Discount: [[${order.discount}]]</p>
+			</div>
+			<div class="d-flex justify-content-start" style="color: white;">
+				<p style="margin: 0;">Shipping Cost: [[${order.shippingcost}]]</p>
+			</div>
+			<div class="d-flex justify-content-start" style="color: white;">
+				<p style="margin: 0;">Total Amount to be Paid: [[${order.grandtotal}]]</p>
+			</div>
+			<div class="d-flex justify-content-start" style="color: white;">
+				<p style="margin: 0;"><b>Payment Method:</b> [[${order.paymentmethod}]]</p>
+			</div>
+			
+			<div class="d-flex justify-content-start" style="color: white;">
+				<p style="margin: 0;font-weight: bold;">Delivery Address:</p>
+			</div>
+			<div class="d-flex justify-content-start text-white" style="width: 60%;text-align: left;">
+				<p>[[${order.address}]]</p>
+			</div>
+			<b style="color: white;">Books Ordered</b>
+			<div class="d-flex justify-content-center align-items-center bg-light mt-2" style="padding: 10px;">
+				<table style="width: 800px;table-layout: fixed;">
+					<thead>
+						<tr class="bg-light mb-5 text-center">
+							<th style="width: 35%;">Book Name</thsty>
+							<th style="width: 20%;">Author</th>
+							<th style="width: 10%;">Price</th>
+							<th style="width: 10%;">Quantity</th>
+							<th style="width: 10%;">SubTotal</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="orderDetail : ${orderdetails[__${orderIndex.index}__]}" class="bg-light">
+							<td style="text-align: center;" th:text="${orderDetail.bookName}"></td>
+							<td style="text-align: center;" th:text="${orderDetail.bookAuthor}"></td>
+							<td style="text-align: center;">&#8377;[[${orderDetail.bookPrice}]]</td>
+							<td style="text-align: center;" th:text="${orderDetail.quantity}"></td>
+							<td style="text-align: center;">&#8377;[[${orderDetail.subtotal}]]</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+			<div class="d-flex justify-content-between mt-3 text-white">
+				<p><span style="color: white;">Order Status: </span>
+					<span th:style="${order.status == 'Order Placed' ? 'color: palegreen' : 'color: red'}"
+						th:text="${order.status}"></span>
+				</p>
+				<div th:if="${order.status == 'Order Placed'}">
+					<a th:href="@{/user/cancelorder/{id}(id=${order.id})}" class="btn btn-danger">Cancel order</a>
+				</div>
+				<div th:unless="${order.status == 'Order Placed'}">
+					<p>Order Cancelled on [[${order.orderCancelDate.toLocalDate()}]]</p>
+				</div>
+			</div>
+
+		</div>
+
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+			integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+			integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+			crossorigin="anonymous"></script>
+		<script>
+			function increaseCount(a, b) {
+				var input = b.previousElementSibling;
+				var value = parseInt(input.value, 10);
+				value = isNaN(value) ? 0 : value;
+				value++;
+				input.value = value;
+			}
+
+
+			function decreaseCount(a, b) {
+				var input = b.nextElementSibling;
+				var value = parseInt(input.value, 10);
+				if (value > 1) {
+					value = isNaN(value) ? 0 : value;
+					value--;
+					input.value = value;
+				}
+			}
+		</script>
+
+
+</body>
+
+</html>

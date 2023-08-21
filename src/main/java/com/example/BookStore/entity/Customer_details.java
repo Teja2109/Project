@@ -21,10 +21,6 @@ public class Customer_details {
 
 	private String phoneno;
 
-	private String address;
-
-	private String pincode;
-
 	private String password;
 
 	private String gender;
@@ -32,6 +28,8 @@ public class Customer_details {
 	private boolean enabled;
 
 	private String verificationCode;
+	
+	private String role="ROLE_USER";
 
 	public int getId() {
 		return id;
@@ -63,22 +61,6 @@ public class Customer_details {
 
 	public void setPhoneno(String phoneno) {
 		this.phoneno = phoneno;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
 	}
 
 	public String getPassword() {
@@ -113,19 +95,26 @@ public class Customer_details {
 		this.verificationCode = verificationCode;
 	}
 
-	public Customer_details(int id, String fullname, String email, String phoneno, String address, String pincode,
-			String password, String gender, boolean enabled, String verificationCode) {
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Customer_details(String fullname, String email, String phoneno,
+			String password, String gender, boolean enabled, String verificationCode,String role) {
 		super();
-		this.id = id;
 		this.fullname = fullname;
 		this.email = email;
 		this.phoneno = phoneno;
-		this.address = address;
-		this.pincode = pincode;
 		this.password = password;
 		this.gender = gender;
 		this.setEnabled(enabled);
 		this.verificationCode = verificationCode;
+		this.role=role;
+		
 	}
 
 	public Customer_details() {

@@ -16,17 +16,23 @@
 <body class="homebody" style="align-items: center;">
 
 	<nav class="navbar">
-	<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
-	<ul>
-			<li><a href="profile">My Profile</a></li>
+		<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
+		<ul>
 			<li><a href="availablebooks">Available books</a></li>
 			<li><a href="mybooks">My Books</a></li>
-			
+			<li><button class="dropbtn">Settings <i class="fa fa-caret-down"></i></button>
+			<div class="dropdown-content">
+					<a href="profile">Profile</a>
+					<a href="myorders">My Orders</a>
+					<a href="/">Sign Out</a>
+				</div>
+			</li>
 		</ul>
 	</nav>
+	
 	<h1 class="container text-center text-white">Humour Books</h1>
 	<th:block th:if="${session.msg}">
-				<p class="text-center fs-1 mt-1 text-danger">[[${session.msg}]]</p>
+				<p class="text-center fs-4 mt-1 text-danger">[[${session.msg}]]</p>
 				<div th:text="${@serviceHelper.removeMessageFromSession()}"></div>
 			</th:block>
 	<div class="books-container">
@@ -38,8 +44,7 @@
 			<p style="display: inline;"><b>Author:</b></p>
 			<p style="display: inline;" th:text="${book.author}">Author</p>
 			<div style="padding-bottom: 10px;">
-				<p style="display: inline;">&#8377</p>
-				<p style="display: inline; font-size: larger;" th:text="${book.price} ">Price</p>
+				<p style="display: inline; font-size: larger;" th:text="'&#8377'+${book.price}"></p>
 			</div>
 			<th:block th:if="${session.msg}">
 				<p class="text-center fs-7 mt-1 text-danger">[[${session.msg}]]</p>

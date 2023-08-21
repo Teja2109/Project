@@ -7,66 +7,66 @@
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<link rel="stylesheet" th:href="@{/css/books.css}">
-	<link rel="icon" type="image/x-icon" href="/images/shopping-cart.png">
-	<title>My Books</title>
+	<link rel="stylesheet" th:href="@{/css/availablebooks.css}">
+	<link rel="icon" type="image/x-icon" href="/images/iicon.png">
+	<title>Register New Book</title>
 	<script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="mybookbody">
+<body class="adminbody">
 
 	<nav class="navbar">
 		<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
 		<ul>
 			<li><a href="availablebooks">Available books</a></li>
-			<li><a href="mybooks">My Books</a></li>
+			<li><a href="addnewbook">Add New Book</a></li>
 			<li><button class="dropbtn">Settings <i class="fa fa-caret-down"></i></button>
-			<div class="dropdown-content">
-					<a href="profile">Profile</a>
-					<a href="myorders">My Orders</a>
+				<div class="dropdown-content">
+					<a href="customers">Customers</a>
+					<a href="userorders">Orders</a>
 					<a href="/">Sign Out</a>
 				</div>
 			</li>
+
 		</ul>
 	</nav>
-	
-	<h1 class="container text-center text-white">My Books</h1>
 
-
+	<h1 class='text-center text-white mb-3'>All Books</h1>
+	<h5 class='text-center text-white mb-2'>Total Number of Books Available: <font class="text-danger">[[*{count}]]</font></h5>
 	<table style="
 		border-collapse: collapse;
         table-layout: fixed;
         margin-left: auto;
         margin-right: auto;
-        width: 1000px;">
+        width: 1200px;">
+        <thead class="p-3">
+				<tr style="background-color: white;text-align: center;">
+					<th scope="col">Cover Page</th>
+					<th scope="col">Book Name</th>
+					<th scope="col">Author Name</th>
+					<th scope="col">Book Type</th>
+					<th scope="col">Price</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+		<tbody>
 		<tr style="color: white;border-top: 1pt solid white;border-bottom: 1pt solid white;padding-bottom: 30px;"
-			th:each="product : ${cart}">
+			th:each="product : ${allbooks}">
 
 			<td style="text-align: center;word-break: break-all;padding-bottom: 10px;padding-top: 10px;"><img alt=""
-					th:src="*{'data:image/jpeg;base64,'+{product.allBook.image}}" style="width: 200px;height: 200px;">
+					th:src="*{'data:image/jpeg;base64,'+{product.image}}" style="width: 200px;height: 200px;">
 			</td>
-			<td style="text-align: center;">[[*{product.allBook.name}]] </td>
-			<td style="text-align: center;">&#8377;[[*{product.allBook.price}]]</td>
+			<td style="text-align: center;">[[*{product.name}]] </td>
+			<td style="text-align: center;">[[*{product.author}]] </td>
+			<td style="text-align: center;">[[*{product.type}]] </td>	
+			<td style="text-align: center;" th:text="'&#8377'+${product.price}"></td>
 			<td style="text-align: center;">
-				<a  style="height: 3px; width: 3px;" th:href ="@{/user/decrementQuantity/{id}(id=${product.id})}" class="btn btn-light d-inline">-</a>
-				<div class="d-inline mx-2">[[${product.quantity}]]</div>
-    		<a th:href="@{/user/incrementQuantity/{id}(id=${product.id})}" class="btn btn-light d-inline">+</a>
-    		<br>
-    		<label style="display:inline-block ;">Subtotal:</label>
-    		<p style="padding-top: 10px; display:inline-block ;">&#8377</p><p style="display:inline-block ;">[[*{product.allBook.price*product.quantity}]]</p>
+				<a th:href="@{/admin/editbook/{id}(id=${product.id})}" class="btn btn-secondary">Edit</a>
+				<a th:href="@{/admin/deleteBook/{id}(id=${product.id})}" class="btn btn-secondary">Delete</a>
 			</td>
-			<td style="text-align: center;"><a th:href="@{/user/deleteBook/{id}(id=${product.id})}"
-					class="btn btn-secondary">Remove</a></td>
 		</tr>
+		</tbody>
 	</table>
-	<div style="text-align: center;" th:if="${recordsPresent}">
-		<h1 class="text-danger fs-3">Sorry!No Books are added to the Cart</h1>
-	</div>
-	<div style="text-align: center;" th:unless="${recordsPresent}">
-		<div style="text-align: center;padding-top: 40px; padding-bottom: 40px;"><a th:href="@{/user/orders}"
-				class="btn btn-success col-md-13-f4">Check out</a></div>
-	</div>
-
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 		crossorigin="anonymous"></script>

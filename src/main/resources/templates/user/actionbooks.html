@@ -18,17 +18,22 @@
 	<nav class="navbar">
 		<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
 		<ul>
-			<li><a href="profile">My Profile</a></li>
 			<li><a href="availablebooks">Available books</a></li>
 			<li><a href="mybooks">My Books</a></li>
-
+			<li><button class="dropbtn">Settings <i class="fa fa-caret-down"></i></button>
+			<div class="dropdown-content">
+					<a href="profile">Profile</a>
+					<a href="myorders">My Orders</a>
+					<a href="/">Sign Out</a>
+				</div>
+			</li>
 		</ul>
 	</nav>
 	<h1 class="container text-center text-white">Action Books</h1>
-	<th:block th:if="${session.msg}">
-				<p class="text-center fs-3 mt-1 text-danger">[[${session.msg}]]</p>
+	<!--<th:block th:if="${session.msg}">
+				<p class="text-center fs-4 mt-1 text-danger">[[${session.msg}]]</p>
 				<div th:text="${@serviceHelper.removeMessageFromSession()}"></div>
-			</th:block>
+			</th:block>-->
 	<div class="books-container">
 		<!-- Loop through the list of books and display each book in a card -->
 		<div th:each="book : ${actionbook}" class="book-card">
@@ -38,13 +43,12 @@
 			<p style="display: inline;"><b>Author:</b></p>
 			<p style="display: inline;" th:text="${book.author}">Author</p>
 			<div style="padding-bottom: 10px;">
-				<p style="display: inline;">&#8377</p>
-				<p style="display: inline; font-size: larger;" th:text="${book.price} ">Price</p>
+				<p style="display: inline; font-size: larger;" th:text="'&#8377'+${book.price}"></p>
 			</div>
-			<th:block th:if="${session.msg}">
+			<div th:if="${session.msg}">
 				<p class="text-center fs-7 mt-1 text-danger">[[${session.msg}]]</p>
 				<div th:text="${@serviceHelper.removeMessageFromSession()}"></div>
-			</th:block>
+			</div>
 			<a style="display: inline;" id="link" th:href="@{/user/myactionList/{id}(id=${book.id})}"
 				class="btn btn-success mt-4 p-1 mx-auto addToCartLink">Add to Cart</a>
 		</div>
@@ -81,30 +85,7 @@
 		}
 	</script>
 
-	<!--<script>
-	const quantityInput = document.getElementById('quantityInput');
-	document.addEventListener('DOMContentLoaded', function() {
-    const quantityInput = document.getElementById('quantityInput');
-    const addToCartLinks = document.querySelectorAll('[id^="addToCartLink-"]');
-    
-    addToCartLinks.forEach(function(link) {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            
-            const bookId = link.id.split('-')[1]; // Extract book ID from link's ID
-            const quantity = quantityInput.value;
-            console.log(quantity);
-            const newHref = `/user/myactionList/${bookId}?quantity=${quantity}`;
-            /*const newHref=link.getAttribute('th:href').replace('0',1);*/
-
-            link.setAttribute('href', newHref);
-            
-            // Uncomment the next line to trigger the link after updating the href
-            link.click();
-        });
-    });
-});
-</script>-->
+	
 
 
 </body>

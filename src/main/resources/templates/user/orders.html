@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/books.css}">
+	<link rel="icon" type="image/x-icon" href="/images/shopping-cart.png">
+	<title>My Books</title>
+	<script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="mybookbody">
+
+	<nav class="navbar">
+		<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
+		<ul>
+			<li><a href="profile">My Profile</a></li>
+			<li><a href="availablebooks">Available books</a></li>
+			<li><a href="mybooks">My Books</a></li>
+
+		</ul>
+	</nav>
+	<form action="/user/orderplaced" method="post">
+		<div class="cart-box-main">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6 col-lg-6">
+						<div class="d-flex justify-content-between">
+							<h2 class="title-left text-white"><b>Shipping Address</b></h2>
+						</div>
+						<div class="checkout-address bg-light rounded p-2">
+							<div th:each="address : ${savedAddresses}">
+								<input style="padding-bottom: 45px;" type="radio" th:name="selectedAddress"
+									th:value="${address.id}" required>
+								<b><span th:text="${address.fullname}"></span>
+								   <span  class="fa fa-phone text-primary"></span>
+								   <span th:text="${address.phonenumber}"></span></b>
+								<br>
+								<span th:text="${address.area + ', ' +address.landmark + ', ' + address.city + ', ' + address.district + ' district, ' + address.state + ', '+ address.country + ' ' + address.pincode}"></span>
+									
+							</div>
+							<a href="addAddress" class="btn btn-secondary mt-2">Add Address</a>
+							<th:block th:if="${session.msg}">
+								<p class="text-center fs-5 text-danger">[[${session.msg}]]</p>
+								<div th:text="${@serviceHelper.removeMessageFromSession()}"></div>
+							</th:block>
+							<hr class="mb-4">
+							<hr class="mb-4">
+							<div class="title"><span><b>Payment Methods</b></span></div>
+							<div class="d-block my-3">
+								<div class="custom-control custom-radio">
+									<input id="debit" th:name="paymentMethod" type="radio" class="custom-control-input" th:value="COD"
+										required>
+									<label class="custom-control-label" for="debit">Cash on Delivery</label>
+								</div>
+							</div>
+							<hr class="mb-1">
+						</div>
+					</div>
+					<div class="col-sm-6 col-lg-6 mb-3">
+						<div class="col-md-12 col-lg-12">
+							<div class="odr-box">
+								<div class="title-left text-white">
+									<h2><b>Shopping Cart</b></h2>
+								</div>
+								<div class="rounded p-2 bg-light">
+									<div class="media mb-2 border-bottom" th:each="book : ${item}">
+										<div ><div class="fw-bold" th:text="${book.allBook.name}"> </div>
+											<div>Price: &#8377;[[${book.allBook.price}]] <span
+													class="mx-2">|</span> Qty: [[${book.quantity}]] <span
+													class="mx-2">|</span> Subtotal:&#8377;[[${book.allBook.price*book.quantity}]]
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 col-lg-12 mt-2">
+							<div class="title-left text-white">
+								<h2><b>Your Order</b></h2>
+							</div>
+							<input type="hidden" th:name="totalprice"
+								th:value="${#aggregates.sum(item.![allBook.price * quantity])}">
+							<div class="order-box bg-light rounded p-2">
+								<div class="d-flex justify-content-between">
+									<div class="font-weight-bold pr-5 fs-3">Product</div>
+									<div class="ml-auto font-weight-bold fs-3">Total</div>
+								</div>
+								<hr class="my-1">
+								<div class="d-flex justify-content-between">
+									<div class="fs-5">Total Price</div>
+									<div class="ml-auto font-weight-bold fs-5" th:name="totalprice"
+										th:text="'&#8377'+${#aggregates.sum(item.![allBook.price * quantity])}"></div>
+								</div>
+								<hr class="my-1">
+								<div class="d-flex justify-content-between">
+									<div class="fs-5">Disount ( 5% )</div>
+									<input style="outline: none;"
+										class="ml-auto font-weight-bold fs-5 border-0 text-end bg-light"
+										th:name="discount"
+										th:value="'&#8377'+${#aggregates.sum(item.![allBook.price * quantity])*0.05}"
+										readonly>
+								</div>
+
+								<div class="d-flex justify-content-between">
+									<div class="fs-5">Shipping Cost</div>
+									<input style="outline:none;"
+										class="ml-auto font-weight-bold fs-5  border-0 text-end bg-light"
+										th:name="shipcost"
+										th:if="${#aggregates.sum(item.![allBook.price * quantity])>500}" th:value="Free"
+										readonly>
+									<input class="ml-auto font-weight-bold fs-5 border-0 text-end bg-light"
+										th:name="shipcost"
+										th:unless="${#aggregates.sum(item.![allBook.price * quantity])>500}"
+										th:value="'&#8377'+198" readonly></input>
+								</div>
+								<hr>
+								<div class="d-flex justify-content-between gr-total">
+									<h5 class="fs-3">Grand Total</h5>
+									<input style="outline: none;"
+										class="ml-auto font-weight-bold fs-3 border-0 text-end bg-light"
+										th:if="${#aggregates.sum(item.![allBook.price * quantity])>500}"
+										th:name="grandtotal"
+										th:value="'&#8377'+${#aggregates.sum(item.![allBook.price * quantity])-#aggregates.sum(item.![allBook.price * quantity])*0.05}"
+										readonly>
+
+									<input styel="outline:none"
+										class="ml-auto font-weight-bold fs-3 border-0 text-end bg-light"
+										th:unless="${#aggregates.sum(item.![allBook.price * quantity])>500}"
+										th:name="grandtotal"
+										th:value="'&#8377'+${#aggregates.sum(item.![allBook.price * quantity])-#aggregates.sum(item.![allBook.price * quantity])*0.05+198}"
+										readonly>
+								</div>
+								<hr>
+
+							</div>
+						</div>
+						<div class="p-3">
+							<button class="btn btn-success d-flex" type="submit">Place Order</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		</div>
+	</form>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+		integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+		integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+		crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -2,7 +2,7 @@ const form = document.getElementById('form');
 const fullname = document.getElementById('fullname');
 const email = document.getElementById('email');
 const phonenumber = document.getElementById('phonenumber');
-const gender = document.getElementById('gender');
+const address = document.getElementById('address');
 const pincode = document.getElementById('pin');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
@@ -85,7 +85,7 @@ function getFieldName(input) {
 form.addEventListener('submit', function (e) {
   e.preventDefault();
 
-  checkRequired([fullname, email,phonenumber,gender, password, password2]);
+  checkRequired([fullname, email,phonenumber, password, password2]);
   checkLength(fullname, 3, 25);
   checkLength(password, 6, 25);
   checkphonenumber(phonenumber);

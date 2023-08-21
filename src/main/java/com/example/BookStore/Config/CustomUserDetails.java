@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.BookStore.entity.Customer_details;
@@ -19,8 +20,9 @@ public class CustomUserDetails implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return new HashSet<GrantedAuthority>();
+		HashSet<SimpleGrantedAuthority> set=new HashSet<SimpleGrantedAuthority>();
+		set.add(new SimpleGrantedAuthority(d.getRole()));
+		return set;
 	}
 
 	@Override

@@ -7,80 +7,122 @@
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<link rel="stylesheet" th:href="@{/css/books.css}">
-	<link rel="icon" type="image/x-icon" href="/images/profile.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+	<link rel="stylesheet" th:href="@{/css/profile.css}">
+	<link rel="icon" type="image/x-icon" href="/images/iicon.png">
 	<title>Profile</title>
 	<script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="mybookbody">
+<body class="registerbody" style="align-items: center;">
 
 	<nav class="navbar">
 		<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
 		<ul>
-			<li><a href="profile">My Profile</a></li>
 			<li><a href="availablebooks">Available books</a></li>
 			<li><a href="mybooks">My Books</a></li>
-
+			<li><button class="dropbtn">Settings <i class="fa fa-caret-down"></i></button>
+				<div class="dropdown-content">
+					<a href="profile">Profile</a>
+					<a href="myorders">My Orders</a>
+					<a href="/">Sign Out</a>
+				</div>
+			</li>
 		</ul>
 	</nav>
-	<h1 class="container text-center text-white">My Profile</h1>
-	<div class="container my-5 col-md-6" style="margin-left: 525px;">
-		<table class="text-center">
-			<tbody style="color: white;" th:each="b: ${customer_details}">
-				<tr>
-					<th>NAME</th>
-				</tr>
-				<tr>
-					<td th:text="${b.fullname}"></td>
-				</tr>
-				<tr height=30px></tr>
-				<tr>
-					<th>EMAIL ID</th>
-				</tr>
-				<tr>
-					<td th:text="${b.email}"></td>
-				</tr>
-				<tr height=30px></tr>
-				<tr>
-					<th>GENDER</th>
-				</tr>
-				<tr>
-					<td th:text="${b.gender}"></td>
-				</tr>
-				<tr height=30px></tr>
-				<tr>
-					<th>MOBILE NUMBER</th>
-				</tr>
-				<tr>
-					<td th:text="${b.phoneno}"></td>
-				</tr>
-				<tr height=30px></tr>
-				<tr>
-					<th>ADDRESS</th>
-				</tr>
-				<tr>
-					<td th:text="${b.address}"></td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="container">
+		<div class="row">
+			<div style="padding-left: 70px;" class="col-md-4 offset-md-1">
+				<form id="form" class="form" action="/user/profile" method="post">
+
+					<h2 class="title-left text-white">User Profile</h2>
+					<div class="mb-3">
+						<label for="username" class="form-label text-white">Full Name</label>
+						<input type="text" class="form-control" id="fullname" placeholder="Enter fullname"
+							th:name="fullname" th:value="${customer_name}" />
+
+					</div>
+					<div class="mb-3">
+						<label for="email" class="form-label text-white">Email</label>
+						<input type="text" class="form-control" id="email" placeholder="Enter email" th:name="email"
+							th:value="${customer_email}" readonly />
+
+					</div>
+					<div class="mb-3">
+						<label for="phonenumber" class="form-label text-white">Phone Number</label>
+						<input type="text" class="form-control" id="phonenumber" placeholder="Enter phone number"
+							th:name="phoneno" th:value="${customer_phoneno}" />
+					</div>
+					<div class="mb-3">
+						<label for="password" class="form-label text-white">Password</label>
+						<input type="password" class="form-control" id="password" name="password"
+							placeholder="Enter password" />
+
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+					<th:block th:if="${session.msg}">
+						<span class="text-center fs-5 mt-1 text-danger">[[${session.msg}]]</span>
+						<div th:text="${@serviceHelper.removeMessageFromSession()}"></div>
+					</th:block>
+				</form>
+
+				<form id="change-password-form" class="mt-5 mb-4" action="updatepassword" method="post">
+					<h2 class="title-left text-white">Change Password</h2>
+					<div class="mb-3">
+						<label for="current-password" class="form-label text-white">Current Password:</label>
+						<input type="password" class="form-control" id="currentpassword" th:name="currentpassword">
+
+						<label for="new-password" class="form-label text-white">New Password:</label>
+						<input type="password" class="form-control" id="newpassword" th:name="newpassword">
+
+						<label for="confirm-new-password" class="form-label text-white">Confirm New Password:</label>
+						<input type="password" class="form-control" id="confirmnewpassword"
+							th:name="confirmnewpassword">
+					</div>
+					<button type="submit" class="btn btn-primary ">Change Password</button>
+				</form>
+			</div>
+			<div class="col-md-4 offset-md-1">
+
+				<form id="address-form">
+					<h2 class="title-left text-white mb-3">MANAGE ADDRESS</h2>
+					<h4 class="title-left text-white mb-3">Saved Address</h4>
+					<div th:each="address : ${savedAddresses}">
+						<div class="mb-4 bg-light rounded p-2">
+							<b><span class="mt-4 mb-4" th:text="${address.fullname}"></span></b>
+							<br>
+							<span class="mb-5"
+								th:text="${address.area + ', ' +address.landmark + ', ' + address.city + ', ' + address.district + ' district, ' + address.state + ', '+ address.country + ' ' + address.pincode}"></span>
+							<p class="text-end mt-2">
+								<a th:href="@{/user/editaddress/{id}(id=${address.id})}"
+									class="btn btn-primary">Edit</a>
+								<a th:href="@{/user/deleteAddress/{id}(id=${address.id})}"
+									class="btn btn-danger">Delete</a>
+							</p>
+						</div>
+					</div>
+					<a class="btn btn-success" href="addaddress">Add Address</a>
+				</form>
+				<ul class="address-list" id="address-container">
+					<!-- Addresses will be displayed here -->
+				</ul>
+			</div>
+			<div style="padding-left: 200px;" class="col-md-6">
+
+
+			</div>
+		</div>
 	</div>
 
-	<div class="prof">
-		<a href="#"><button type="button" class="btn btn-info">Update Your Profile</button></a>
-	</div>
-	
-	<div class="prof">
-		<button type="button" class="btn btn-info">My Orders</button>
-	</div>
-	
-	<div class="prof">
-		<button type="button" class="btn btn-info">Change Password</button>
-	</div>
-	
-	<div class="prof">
-		<button type="button" class="btn btn-danger">Logout</button>
-	</div>
+	<!-- Include Bootstrap JS (optional) -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+
 
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -92,6 +134,31 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
 		integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
 		crossorigin="anonymous"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const settingsButton = document.querySelector('.dropbtn');
+			const dropdownContent = document.querySelector('.dropdown-content');
+
+			settingsButton.addEventListener('click', function () {
+				dropdownContent.classList.toggle('show');
+			});
+
+			// Close the dropdown if the user clicks outside of it
+			window.addEventListener('click', function (event) {
+				if (!event.target.matches('.dropbtn')) {
+					if (dropdownContent.classList.contains('show')) {
+						dropdownContent.classList.remove('show');
+					}
+				}
+			});
+		});
+	</script>
+
+
+
+
+
+
 
 </body>
 

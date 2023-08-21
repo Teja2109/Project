@@ -20,7 +20,7 @@ public class FictionBookServiceImpl implements FictionBookService {
 
 	@Override
 	public AllBook getAllBookById(int Id) {
-		return allBookRepository.findById(Id).get();
+		return allBookRepository.findById(Id);
 	}
 
 }

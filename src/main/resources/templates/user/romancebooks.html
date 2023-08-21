@@ -18,34 +18,36 @@
 	<nav class="navbar">
 		<a href="/"><img src="/images/eureka_logo.png" class="image"></a>
 		<ul>
-			<li><a href="profile">My Profile</a></li>
 			<li><a href="availablebooks">Available books</a></li>
 			<li><a href="mybooks">My Books</a></li>
-
+			<li><button class="dropbtn">Settings <i class="fa fa-caret-down"></i></button>
+			<div class="dropdown-content">
+					<a href="profile">Profile</a>
+					<a href="myorders">My Orders</a>
+					<a href="/">Sign Out</a>
+				</div>
+			</li>
 		</ul>
 	</nav>
+	
 	<h1 class="container text-center text-white">Romance Books</h1>
 	<th:block th:if="${session.msg}">
-		<p class="text-center fs-3 mt-1 text-danger">[[${session.msg}]]</p>
-		<div th:text="${@serviceHelper.removeMessageFromSession()}"></div>
-	</th:block>
-	<div class="books-container">
-		<!-- Loop through the list of books and display each book in a card -->
-		<div th:each="book : ${romancebook}" class="book-card">
-			<img alt="" th:src="*{'data:image/jpeg;base64,'+{book.image}}"
-				style="width: 200px;height: 200px; padding-bottom: 10px;">
-			<h4 style="padding-bottom: 10px;" th:text="${book.name}">Book Title</h4>
-			<p style="display: inline;"><b>Author:</b></p>
-			<p style="display: inline;" th:text="${book.author}">Author</p>
-			<div>
-				<p style="display: inline;">&#8377</p>
-				<p style="display: inline;font-size: larger;" th:text="${book.price} ">Price</p>
-			</div>
-			<a style="display: inline;" th:href="@{/user/myromanceList/{id}(id=${book.id})}"
-				class="btn btn-success mt-4 p-1 mx-auto">Add to Cart</a>
-
+				<p class="text-center fs-4 mt-1 text-danger">[[${session.msg}]]</p>
+				<div th:text="${@serviceHelper.removeMessageFromSession()}"></div>
+			</th:block>
+			<div class="books-container">
+        <!-- Loop through the list of books and display each book in a card -->
+        <div th:each="book : ${romancebook}" class="book-card">
+			<img alt="" th:src="*{'data:image/jpeg;base64,'+{book.image}}" style="width: 200px;height: 200px; padding-bottom: 10px;">
+            <h4 style="padding-bottom: 10px;"th:text="${book.name}">Book Title</h4>
+            <p style="display: inline;"><b>Author:</b></p>
+            <p style="display: inline;" th:text="${book.author}">Author</p>
+            <div>
+            <p style="display: inline; font-size: larger;" th:text="'&#8377'+${book.price}"></p>
+            </div>
+              <a style="display: inline;" th:href="@{/user/myromanceList/{id}(id=${book.id})}" class="btn btn-success mt-4 p-1 mx-auto">Add to Cart</a>
+        	</div>
 		</div>
-	</div>
 
 
 
@@ -60,22 +62,22 @@
 		crossorigin="anonymous"></script>
 	<script>
 		function increaseCount(a, b) {
-			var input = b.previousElementSibling;
-			var value = parseInt(input.value, 10);
-			value = isNaN(value) ? 0 : value;
-			value++;
-			input.value = value;
-		}
+  var input = b.previousElementSibling;
+  var value = parseInt(input.value, 10);
+  value = isNaN(value) ? 0 : value;
+  value++;
+  input.value = value;
+}
 
-		function decreaseCount(a, b) {
-			var input = b.nextElementSibling;
-			var value = parseInt(input.value, 10);
-			if (value > 1) {
-				value = isNaN(value) ? 0 : value;
-				value--;
-				input.value = value;
-			}
-		}
+function decreaseCount(a, b) {
+  var input = b.nextElementSibling;
+  var value = parseInt(input.value, 10);
+  if (value > 1) {
+    value = isNaN(value) ? 0 : value;
+    value--;
+    input.value = value;
+  }
+}
 	</script>
 
 </body>

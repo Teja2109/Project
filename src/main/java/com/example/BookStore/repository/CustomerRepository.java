@@ -15,4 +15,8 @@ public interface CustomerRepository extends JpaRepository<Customer_details, Inte
 	public Customer_details findByEmailAndPhoneno(String email, String phoneno);
 	
 	public Customer_details findByVerificationCode(String code);
+	
+	public String getPasswordById(int id);
+	
+	public Customer_details findById(int id);
 }

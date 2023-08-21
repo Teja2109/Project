@@ -20,6 +20,6 @@ public class RomanceBookServiceImpl implements RomanceBookService {
 
 	@Override
 	public AllBook getAllBookById(int Id) {
-		return allBookRepository.findById(Id).get();
+		return allBookRepository.findById(Id);
 	}
 }

@@ -50,7 +50,7 @@ public class HumourBookServiceImpl implements HumourBookService{
 	
 @Override
 public AllBook getAllBookById(int Id) {
-	return allBookRepository.findById(Id).get();
+	return allBookRepository.findById(Id);
 }
 
 

@@ -44,10 +44,7 @@ public class HomeController {
 	}
 	
 	@PostMapping("/createuser")
-	public String createuser(@ModelAttribute Customer_details details,HttpSession session, HttpServletRequest request) {
-		String url = request.getRequestURI().toString();
-		url = url.replace(request.getServletPath(), "");
-		
+	public String createuser(@ModelAttribute Customer_details details,HttpSession session) {
 		
 		boolean f = customerService.checkEmail(details.getEmail());
 		
@@ -56,40 +53,15 @@ public class HomeController {
 			return "redirect:/register";
 		}
 		else {
-		Customer_details cs=customerService.createuser(details,url);
+		Customer_details cs=customerService.createuser(details);
 		if(cs!=null) {
 			System.out.println("Success");
 			session.setAttribute("msg1","Successfully Registered!!");
 			session.setAttribute("msg1", "Verify Your email by clicking on link sent to the registered mail");
-//			return "redirect:/customer_sign";
 		}
 		}
 		return "redirect:/signin";
 		
-	}
-
-	@GetMapping("/forgotPassword")
-	public String loadForgotPassword() {
-		return "forgotPassword";
-	}
-	
-	@GetMapping("/resetPassword/{id}")
-	public String loadresetPassword(@PathVariable int id, Model m) {
-		m.addAttribute("id",id);
-		return "resetPassword";
-	}
-	
-	@PostMapping("/forgotPsw")
-	public String forgotPassword(@RequestParam String email, @RequestParam String phoneno, HttpSession session) {
-		Customer_details user = userRepo.findByEmailAndPhoneno(email, phoneno);
-		if(user!=null) {
-			return "redirect:/resetPassword/" + user.getId();
-		}
-		else {
-			session.setAttribute("msg1", "invalid email or mobile number");
-			return "forgotPassword";
-		}
-				
 	}
 	
 	@GetMapping("/verify")
@@ -103,17 +75,48 @@ public class HomeController {
 		}
 		
 	}
-	
-	@PostMapping("/changePassword")
-	public String resetPassword(@RequestParam String psw, @RequestParam Integer id, HttpSession session ) {
-		Customer_details user = userRepo.findById(id).get();
-		String epsw = pswEncoder.encode(psw);
-		user.setPassword(epsw);
-		Customer_details updatedUser = userRepo.save(user);
-		if(updatedUser!=null) {
-			session.setAttribute("msg1", "Password changed successfully");
-		}
-		return "redirect:/forgotPassword";
+
+	@GetMapping("/forgotPassword")
+	public String loadForgotPassword() {
+		return "forgotPassword";
 	}
+
+	
+	@PostMapping("/forgotPsw")
+	public String forgotPassword(String email, HttpSession session) {
+		if(customerService.checkEmail(email)) {
+			customerService.sendChangePasswordMail(email);
+			session.setAttribute("msg1", "Please click on link sent to your mail");
+			return "redirect:/forgotPassword";
+		}
+		else {
+			session.setAttribute("msg1", "invalid email address");
+			return "forgotPassword";
+		}
+				
+	}
+	
+	@GetMapping("/reset/{id}")
+	public String resetPassword(@PathVariable("id") int Id, Model m) {
+		m.addAttribute("userid", Id);
+		return "resetPassword";
+	}
+	
+	@PostMapping("/reset")
+	public String passwordChange(int id, String psw) {
+		customerService.changePassword(id, psw);
+		return "redirect:/";
+	}
+	
+	
+	
+	/*
+	 * @PostMapping("/changePassword") public String resetPassword(@RequestParam
+	 * String psw, @RequestParam Integer id, HttpSession session ) {
+	 * Customer_details user = userRepo.findById(id).get(); String epsw =
+	 * pswEncoder.encode(psw); user.setPassword(epsw); Customer_details updatedUser
+	 * = userRepo.save(user); if(updatedUser!=null) { session.setAttribute("msg1",
+	 * "Password changed successfully"); } return "redirect:/forgotPassword"; }
+	 */
 	
 }

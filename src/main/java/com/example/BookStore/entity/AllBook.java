@@ -1,8 +1,9 @@
 package com.example.BookStore.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
-
 @Entity
 @Table(name = "allbook")
 @Data
@@ -18,6 +19,9 @@ public class AllBook {
 	@Column(columnDefinition = "MEDIUMBLOB")
 	private String image;
 
+	@OneToMany(mappedBy = "allBook", cascade = CascadeType.REMOVE)
+    private List<Cart> carts;
+	
 	public int getId() {
 		return id;
 	}

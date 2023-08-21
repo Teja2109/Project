@@ -1,5 +1,6 @@
 package com.example.BookStore.Config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -9,11 +10,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
 
+	@Autowired
+	private AuthenticationSuccessHandler customSuccessHandler;
+	
 	@Bean
 	public UserDetailsService getUserDetailsService() {
 		return new UserDetailsServiceImpl();
@@ -41,9 +46,11 @@ public class SecurityConfig{
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().requestMatchers("/user/**").authenticated()
+		http.authorizeRequests().requestMatchers("/user/**").hasRole("USER")
+				.requestMatchers("/admin/**").hasRole("ADMIN")
 				.requestMatchers("/**").permitAll().and().formLogin().loginPage("/signin").loginProcessingUrl("/login")
-				.defaultSuccessUrl("/user/availablebooks").and().csrf().disable();
+				.successHandler(customSuccessHandler).and().csrf().disable();
+		
 		http.authenticationProvider(getDaoAuthProvider());
 		return http.build();
 
